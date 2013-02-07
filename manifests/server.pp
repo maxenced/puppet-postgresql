@@ -62,4 +62,8 @@ class postgresql::server (
     refreshonly => true,
   }
 
+  @@nagios_service { "check_ssh_pgsql_${::fqdn}":
+    check_command      => "check_ssh_process!1!15!postgres!${::ssh_port}",
+    service_definition => "check_ssh_pgsql_${::fqdn}"
+  }
 }
