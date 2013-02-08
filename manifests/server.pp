@@ -33,7 +33,6 @@ class postgresql::server (
   $config_class['postgresql::config'] = $config_hash
 
   create_resources( 'class', $config_class )
-  
 
   service { 'postgresqld':
     ensure   => running,
@@ -48,7 +47,7 @@ class postgresql::server (
     include postgresql::initdb
 
     Package['postgresql-server'] -> Class['postgresql::initdb'] -> Class['postgresql::config'] -> Service['postgresqld']
-  } 
+  }
   else  {
     Package['postgresql-server'] -> Class['postgresql::config'] -> Service['postgresqld']
   }
@@ -63,7 +62,10 @@ class postgresql::server (
   }
 
   @@nagios_service { "check_ssh_pgsql_${::fqdn}":
-    check_command      => "check_ssh_process!1!15!postgres!${::ssh_port}",
-    service_definition => "check_ssh_pgsql_${::fqdn}"
+    check_command       => "check_ssh_process!1!15!postgres!${::ssh_port}",
+    use                 => 'generic-service',
+    host_name           => $::fqdn,
+    notification_period => '24x7',
+    service_definition  => "check_ssh_pgsql_${::fqdn}"
   }
 }
