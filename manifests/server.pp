@@ -62,7 +62,7 @@ class postgresql::server (
   }
 
   @@nagios_service { "check_ssh_pgsql_${::fqdn}":
-    check_command       => "check_ssh_process!1!15!postgres!${::ssh_port}",
+    check_command       => "check_ssh_process!1!25!postgres!${::ssh_port}",
     use                 => 'generic-service',
     host_name           => $::fqdn,
     notification_period => '24x7',
