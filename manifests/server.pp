@@ -66,6 +66,6 @@ class postgresql::server (
     use                 => 'generic-service',
     host_name           => $::fqdn,
     notification_period => '24x7',
-    service_definition  => "check_ssh_pgsql_${::fqdn}"
+    service_description => "check_ssh_pgsql_${::fqdn}"
   }
 }
